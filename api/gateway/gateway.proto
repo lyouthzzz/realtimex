@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package realtimex.gateway;
+
+option go_package = "github.com/lyouthzzz/realtimex/gateway;gateway";
+
+service GatewayService {
+
+}
+
+service PushService {
+
+}
+
+// 身份认证服务
+service AuthnService {
+  // 检查连接权限
+  rpc CheckConnect(CheckConnectReq) returns (CheckConnectReply) {}
+  // 检查主题权限
+  rpc CheckTopic(CheckTopicReq) returns (CheckTopicReply) {}
+}
+
+message CheckConnectReq {
+  string token = 1;
+}
+
+message CheckConnectReply {
+  string uid = 1;
+}
+
+message CheckTopicReq {
+  // pub or sub
+  string cmd = 1;
+  // 主题名称
+  string topic = 2;
+}
+
+message CheckTopicReply {
+  bool ok = 1;
+  string msg = 2;
+}

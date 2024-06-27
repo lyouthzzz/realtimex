@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package realtimex.protocol;
+
+option go_package = "github.com/lyouthzzz/realtimex/protocol;protocol";
+
+enum Cmd {
+  UNSPECIFIED = 0;
+  // 连接
+  Connect = 1;
+  // 连接确认
+  ConnectAck = 2;
+  // 断开连接
+  Disconnect = 3;
+  // ping
+  PingReq = 4;
+  // pong
+  PingResp = 5;
+  // 发布消息
+  Publish = 6;
+  // 发布消息确认
+  PublishAck = 7;
+  // 订阅主题
+  Subscribe = 8;
+  // 订阅主题确认
+  SubscribeAck = 9;
+  // 取消订阅主题
+  Unsubscribe = 10;
+  // 取消订阅主题确认
+  UnsubscribeAck = 11;
+}
+
+message Proto {
+  // 消息指令
+  Cmd cmd = 1;
+  // 消息主体
+  oneof body {
+    ConnectPacket connect = 2;
+    ConnectAckPacket connectAck = 3;
+    DisconnectPacket disconnect = 4;
+    PingReqPacket pingReq = 5;
+    PingRespPacket pingResp = 6;
+    PublishPacket publish = 7;
+    PublishAckPacket publishAck = 8;
+    SubscribePacket subscribe = 9;
+    SubscribeAckPacket subscribeAck = 10;
+    UnsubscribePacket unsubscribe = 11;
+    UnsubscribeAckPacket unsubscribeAck = 12;
+  }
+}
+
+message ConnectPacket {
+  // 客户端ID
+  string clientId = 1;
+  // 协议版本
+  string version = 2;
+}
+
+message ConnectAckPacket {}
+
+message DisconnectPacket {}
+
+message DisconnectAckPacket {}
+
+message PingReqPacket {}
+
+message PingRespPacket {}
+
+message PublishPacket {
+  // 用户id
+  string uid = 1;
+  // 主题
+  string topic = 2;
+  // 消息ID
+  uint64 msgId = 3;
+  // 消息内容
+  bytes payload = 4;
+}
+
+message PublishAckPacket {
+  // 消息ID
+  uint64 msgId = 1;
+}
+
+message SubscribePacket {
+  // 订阅主题
+  string topic = 1;
+  // 消息ID
+  uint64 msgId = 2;
+}
+
+message SubscribeAckPacket {
+  // 消息ID
+  uint64 msgId = 1;
+}
+
+message UnsubscribePacket {
+  // 取消订阅主题
+  string topic = 1;
+  // 消息ID
+  uint64 msgId = 2;
+}
+
+message UnsubscribeAckPacket {
+  // 消息ID
+  uint64 msgId = 1;
+}

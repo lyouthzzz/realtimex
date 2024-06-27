@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package realtimex.gateway.config;
+
+option go_package = "github.com/lyouthzzz/realtimex/gateway/conf;conf";
+
+message Websocket {
+  // 服务地址
+  string addr = 1;
+  // ws路由
+  string path = 2;
+  // 鉴权地址
+  string authEndpoint = 3;
+}
+
+message Bootstrap {
+  // ws服务配置
+  Websocket websocket = 1;
+  // 是否开启ws服务
+  bool websocketEnable = 2;
+}

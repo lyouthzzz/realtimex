@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package realtimex.msg;
+
+option go_package = "github.com/lyouthzzz/realtimex/msg;msg";
+
+import "protocol/protocol.proto";
+import "google/api/annotations.proto";
+
+// 消息服务 处理网关上行消息
+service ReceiveService {
+  // 连接
+  rpc Connect(protocol.ConnectPacket) returns (protocol.ConnectAckPacket) {
+    option (google.api.http) = {post: "/realtimex/msg/receive/connect"};
+  }
+  // 订阅主题
+  rpc Subscribe(protocol.SubscribePacket) returns (protocol.SubscribeAckPacket) {
+    option (google.api.http) = {post: "/realtimex/msg/receive/subscribe"};
+  }
+  // 取消订阅主题
+  rpc Unsubscribe(protocol.UnsubscribePacket) returns (protocol.UnsubscribeAckPacket) {
+    option (google.api.http) = {post: "/realtimex/msg/receive/unsubscribe"};
+  }
+  // 发布消息
+  rpc Publish(protocol.PublishPacket) returns (protocol.PublishAckPacket) {
+    option (google.api.http) = {post: "/realtimex/msg/receive/publish"};
+  }
+  // 心跳
+  rpc Ping(protocol.PingReqPacket) returns (protocol.PingRespPacket) {
+    option (google.api.http) = {post: "/realtimex/msg/receive/ping"};
+  }
+  // 断开连接
+  rpc Disconnect(protocol.DisconnectPacket) returns (protocol.DisconnectAckPacket) {
+    option (google.api.http) = {post: "/realtimex/msg/receive/disconnect"};
+  }
+}
+
+// 消息推送服务 处理网关下行消息
+service PushService {
+  // 按照主题广播消息
+  rpc BroadcastTopicMsg(protocol.PublishPacket) returns (protocol.PublishAckPacket) {
+    option (google.api.http) = {post: "/realtimex/msg/push/broadcastTopicMsg"};
+  }
+  // 推送到消息
+  rpc PushUserMsg(PushUserMsgReq) returns (PushUserMsgResp) {
+    option (google.api.http) = {post: "/realtimex/msg/push/pushUserMsg"};
+  }
+}
+
+message PushUserMsgReq {
+  // 用户id
+  repeated string uids = 1;
+  // 消息
+  protocol.PublishPacket publishPacket = 2;
+}
+
+message PushUserMsgResp {}
