@@ -33,7 +33,7 @@ func Logger() Middleware {
 			body, _ := protojson.Marshal(p)
 			kvs := make([]any, 0)
 			kvs = append(kvs, "msg", string(body))
-			kvs = append(kvs, "operation", p.Operation)
+			kvs = append(kvs, "operation", p.Cmd)
 			kvs = append(kvs, "ingress", len(body))
 			kvs = append(kvs, "latency", time.Since(startTime).Seconds())
 			kvs = append(kvs, "msg", string(body))

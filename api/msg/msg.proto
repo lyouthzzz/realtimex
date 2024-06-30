@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package realtimex.msg;
 
-option go_package = "github.com/lyouthzzz/realtimex/msg;msg";
+option go_package = "github.com/lyouthzzz/realtimex/api/msg;msg";
 
 import "protocol/protocol.proto";
 import "google/api/annotations.proto";
@@ -11,27 +11,45 @@ import "google/api/annotations.proto";
 service ReceiveService {
   // 连接
   rpc Connect(protocol.ConnectPacket) returns (protocol.ConnectAckPacket) {
-    option (google.api.http) = {post: "/realtimex/msg/receive/connect"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/receive/connect",
+      body: "*"
+    };
   }
   // 订阅主题
   rpc Subscribe(protocol.SubscribePacket) returns (protocol.SubscribeAckPacket) {
-    option (google.api.http) = {post: "/realtimex/msg/receive/subscribe"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/receive/subscribe",
+      body: "*"
+    };
   }
   // 取消订阅主题
   rpc Unsubscribe(protocol.UnsubscribePacket) returns (protocol.UnsubscribeAckPacket) {
-    option (google.api.http) = {post: "/realtimex/msg/receive/unsubscribe"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/receive/unsubscribe",
+      body: "*"
+    };
   }
   // 发布消息
   rpc Publish(protocol.PublishPacket) returns (protocol.PublishAckPacket) {
-    option (google.api.http) = {post: "/realtimex/msg/receive/publish"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/receive/publish",
+      body: "*"
+    };
   }
   // 心跳
   rpc Ping(protocol.PingReqPacket) returns (protocol.PingRespPacket) {
-    option (google.api.http) = {post: "/realtimex/msg/receive/ping"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/receive/ping",
+      body: "*"
+    };
   }
   // 断开连接
   rpc Disconnect(protocol.DisconnectPacket) returns (protocol.DisconnectAckPacket) {
-    option (google.api.http) = {post: "/realtimex/msg/receive/disconnect"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/receive/disconnect",
+      body: "*"
+    };
   }
 }
 
@@ -39,11 +57,17 @@ service ReceiveService {
 service PushService {
   // 按照主题广播消息
   rpc BroadcastTopicMsg(protocol.PublishPacket) returns (protocol.PublishAckPacket) {
-    option (google.api.http) = {post: "/realtimex/msg/push/broadcastTopicMsg"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/push/broadcastTopicMsg",
+      body: "*"
+    };
   }
   // 推送到消息
   rpc PushUserMsg(PushUserMsgReq) returns (PushUserMsgResp) {
-    option (google.api.http) = {post: "/realtimex/msg/push/pushUserMsg"};
+    option (google.api.http) = {
+      post: "/realtimex/msg/push/pushUserMsg",
+      body: "*"
+    };
   }
 }
 

@@ -1,4 +1,4 @@
-package cmd
+package operation
 
 const (
 	Connect = iota + 1

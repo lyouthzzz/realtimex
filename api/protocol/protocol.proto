@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package realtimex.protocol;
 
-option go_package = "github.com/lyouthzzz/realtimex/protocol;protocol";
+option go_package = "github.com/lyouthzzz/realtimex/api/protocol;protocol";
 
-enum Cmd {
+enum Operation {
   UNSPECIFIED = 0;
   // 连接
   Connect = 1;
@@ -32,21 +32,9 @@ enum Cmd {
 
 message Proto {
   // 消息指令
-  Cmd cmd = 1;
+  Operation operation = 1;
   // 消息主体
-  oneof body {
-    ConnectPacket connect = 2;
-    ConnectAckPacket connectAck = 3;
-    DisconnectPacket disconnect = 4;
-    PingReqPacket pingReq = 5;
-    PingRespPacket pingResp = 6;
-    PublishPacket publish = 7;
-    PublishAckPacket publishAck = 8;
-    SubscribePacket subscribe = 9;
-    SubscribeAckPacket subscribeAck = 10;
-    UnsubscribePacket unsubscribe = 11;
-    UnsubscribeAckPacket unsubscribeAck = 12;
-  }
+  bytes body = 2;
 }
 
 message ConnectPacket {

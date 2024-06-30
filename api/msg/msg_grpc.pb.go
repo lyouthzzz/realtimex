@@ -8,6 +8,7 @@ package msg
 
 import (
 	context "context"
+	protocol "github.com/lyouthzzz/realtimex/api/protocol"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -18,278 +19,278 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// MsgServiceClient is the client API for MsgService service.
+// ReceiveServiceClient is the client API for ReceiveService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type MsgServiceClient interface {
+type ReceiveServiceClient interface {
 	// 连接
-	Connect(ctx context.Context, in *ConnectReq, opts ...grpc.CallOption) (*ConnectAck, error)
+	Connect(ctx context.Context, in *protocol.ConnectPacket, opts ...grpc.CallOption) (*protocol.ConnectAckPacket, error)
 	// 订阅主题
-	Subscribe(ctx context.Context, in *SubscribeReq, opts ...grpc.CallOption) (*SubscribeAck, error)
+	Subscribe(ctx context.Context, in *protocol.SubscribePacket, opts ...grpc.CallOption) (*protocol.SubscribeAckPacket, error)
 	// 取消订阅主题
-	Unsubscribe(ctx context.Context, in *UnsubscribeReq, opts ...grpc.CallOption) (*UnsubscribeAck, error)
+	Unsubscribe(ctx context.Context, in *protocol.UnsubscribePacket, opts ...grpc.CallOption) (*protocol.UnsubscribeAckPacket, error)
 	// 发布消息
-	Publish(ctx context.Context, in *PublishReq, opts ...grpc.CallOption) (*PublishAck, error)
+	Publish(ctx context.Context, in *protocol.PublishPacket, opts ...grpc.CallOption) (*protocol.PublishAckPacket, error)
 	// 心跳
-	Ping(ctx context.Context, in *PingReq, opts ...grpc.CallOption) (*PingAck, error)
+	Ping(ctx context.Context, in *protocol.PingReqPacket, opts ...grpc.CallOption) (*protocol.PingRespPacket, error)
 	// 断开连接
-	Disconnect(ctx context.Context, in *DisconnectReq, opts ...grpc.CallOption) (*DisconnectAck, error)
+	Disconnect(ctx context.Context, in *protocol.DisconnectPacket, opts ...grpc.CallOption) (*protocol.DisconnectAckPacket, error)
 }
 
-type msgServiceClient struct {
+type receiveServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewMsgServiceClient(cc grpc.ClientConnInterface) MsgServiceClient {
-	return &msgServiceClient{cc}
+func NewReceiveServiceClient(cc grpc.ClientConnInterface) ReceiveServiceClient {
+	return &receiveServiceClient{cc}
 }
 
-func (c *msgServiceClient) Connect(ctx context.Context, in *ConnectReq, opts ...grpc.CallOption) (*ConnectAck, error) {
-	out := new(ConnectAck)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.MsgService/Connect", in, out, opts...)
+func (c *receiveServiceClient) Connect(ctx context.Context, in *protocol.ConnectPacket, opts ...grpc.CallOption) (*protocol.ConnectAckPacket, error) {
+	out := new(protocol.ConnectAckPacket)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.ReceiveService/Connect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgServiceClient) Subscribe(ctx context.Context, in *SubscribeReq, opts ...grpc.CallOption) (*SubscribeAck, error) {
-	out := new(SubscribeAck)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.MsgService/Subscribe", in, out, opts...)
+func (c *receiveServiceClient) Subscribe(ctx context.Context, in *protocol.SubscribePacket, opts ...grpc.CallOption) (*protocol.SubscribeAckPacket, error) {
+	out := new(protocol.SubscribeAckPacket)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.ReceiveService/Subscribe", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgServiceClient) Unsubscribe(ctx context.Context, in *UnsubscribeReq, opts ...grpc.CallOption) (*UnsubscribeAck, error) {
-	out := new(UnsubscribeAck)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.MsgService/Unsubscribe", in, out, opts...)
+func (c *receiveServiceClient) Unsubscribe(ctx context.Context, in *protocol.UnsubscribePacket, opts ...grpc.CallOption) (*protocol.UnsubscribeAckPacket, error) {
+	out := new(protocol.UnsubscribeAckPacket)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.ReceiveService/Unsubscribe", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgServiceClient) Publish(ctx context.Context, in *PublishReq, opts ...grpc.CallOption) (*PublishAck, error) {
-	out := new(PublishAck)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.MsgService/Publish", in, out, opts...)
+func (c *receiveServiceClient) Publish(ctx context.Context, in *protocol.PublishPacket, opts ...grpc.CallOption) (*protocol.PublishAckPacket, error) {
+	out := new(protocol.PublishAckPacket)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.ReceiveService/Publish", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgServiceClient) Ping(ctx context.Context, in *PingReq, opts ...grpc.CallOption) (*PingAck, error) {
-	out := new(PingAck)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.MsgService/Ping", in, out, opts...)
+func (c *receiveServiceClient) Ping(ctx context.Context, in *protocol.PingReqPacket, opts ...grpc.CallOption) (*protocol.PingRespPacket, error) {
+	out := new(protocol.PingRespPacket)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.ReceiveService/Ping", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *msgServiceClient) Disconnect(ctx context.Context, in *DisconnectReq, opts ...grpc.CallOption) (*DisconnectAck, error) {
-	out := new(DisconnectAck)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.MsgService/Disconnect", in, out, opts...)
+func (c *receiveServiceClient) Disconnect(ctx context.Context, in *protocol.DisconnectPacket, opts ...grpc.CallOption) (*protocol.DisconnectAckPacket, error) {
+	out := new(protocol.DisconnectAckPacket)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.ReceiveService/Disconnect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// MsgServiceServer is the server API for MsgService service.
-// All implementations must embed UnimplementedMsgServiceServer
+// ReceiveServiceServer is the server API for ReceiveService service.
+// All implementations must embed UnimplementedReceiveServiceServer
 // for forward compatibility
-type MsgServiceServer interface {
+type ReceiveServiceServer interface {
 	// 连接
-	Connect(context.Context, *ConnectReq) (*ConnectAck, error)
+	Connect(context.Context, *protocol.ConnectPacket) (*protocol.ConnectAckPacket, error)
 	// 订阅主题
-	Subscribe(context.Context, *SubscribeReq) (*SubscribeAck, error)
+	Subscribe(context.Context, *protocol.SubscribePacket) (*protocol.SubscribeAckPacket, error)
 	// 取消订阅主题
-	Unsubscribe(context.Context, *UnsubscribeReq) (*UnsubscribeAck, error)
+	Unsubscribe(context.Context, *protocol.UnsubscribePacket) (*protocol.UnsubscribeAckPacket, error)
 	// 发布消息
-	Publish(context.Context, *PublishReq) (*PublishAck, error)
+	Publish(context.Context, *protocol.PublishPacket) (*protocol.PublishAckPacket, error)
 	// 心跳
-	Ping(context.Context, *PingReq) (*PingAck, error)
+	Ping(context.Context, *protocol.PingReqPacket) (*protocol.PingRespPacket, error)
 	// 断开连接
-	Disconnect(context.Context, *DisconnectReq) (*DisconnectAck, error)
-	mustEmbedUnimplementedMsgServiceServer()
+	Disconnect(context.Context, *protocol.DisconnectPacket) (*protocol.DisconnectAckPacket, error)
+	mustEmbedUnimplementedReceiveServiceServer()
 }
 
-// UnimplementedMsgServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedMsgServiceServer struct {
+// UnimplementedReceiveServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedReceiveServiceServer struct {
 }
 
-func (UnimplementedMsgServiceServer) Connect(context.Context, *ConnectReq) (*ConnectAck, error) {
+func (UnimplementedReceiveServiceServer) Connect(context.Context, *protocol.ConnectPacket) (*protocol.ConnectAckPacket, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Connect not implemented")
 }
-func (UnimplementedMsgServiceServer) Subscribe(context.Context, *SubscribeReq) (*SubscribeAck, error) {
+func (UnimplementedReceiveServiceServer) Subscribe(context.Context, *protocol.SubscribePacket) (*protocol.SubscribeAckPacket, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
-func (UnimplementedMsgServiceServer) Unsubscribe(context.Context, *UnsubscribeReq) (*UnsubscribeAck, error) {
+func (UnimplementedReceiveServiceServer) Unsubscribe(context.Context, *protocol.UnsubscribePacket) (*protocol.UnsubscribeAckPacket, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Unsubscribe not implemented")
 }
-func (UnimplementedMsgServiceServer) Publish(context.Context, *PublishReq) (*PublishAck, error) {
+func (UnimplementedReceiveServiceServer) Publish(context.Context, *protocol.PublishPacket) (*protocol.PublishAckPacket, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Publish not implemented")
 }
-func (UnimplementedMsgServiceServer) Ping(context.Context, *PingReq) (*PingAck, error) {
+func (UnimplementedReceiveServiceServer) Ping(context.Context, *protocol.PingReqPacket) (*protocol.PingRespPacket, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
-func (UnimplementedMsgServiceServer) Disconnect(context.Context, *DisconnectReq) (*DisconnectAck, error) {
+func (UnimplementedReceiveServiceServer) Disconnect(context.Context, *protocol.DisconnectPacket) (*protocol.DisconnectAckPacket, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Disconnect not implemented")
 }
-func (UnimplementedMsgServiceServer) mustEmbedUnimplementedMsgServiceServer() {}
+func (UnimplementedReceiveServiceServer) mustEmbedUnimplementedReceiveServiceServer() {}
 
-// UnsafeMsgServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to MsgServiceServer will
+// UnsafeReceiveServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ReceiveServiceServer will
 // result in compilation errors.
-type UnsafeMsgServiceServer interface {
-	mustEmbedUnimplementedMsgServiceServer()
+type UnsafeReceiveServiceServer interface {
+	mustEmbedUnimplementedReceiveServiceServer()
 }
 
-func RegisterMsgServiceServer(s grpc.ServiceRegistrar, srv MsgServiceServer) {
-	s.RegisterService(&MsgService_ServiceDesc, srv)
+func RegisterReceiveServiceServer(s grpc.ServiceRegistrar, srv ReceiveServiceServer) {
+	s.RegisterService(&ReceiveService_ServiceDesc, srv)
 }
 
-func _MsgService_Connect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConnectReq)
+func _ReceiveService_Connect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(protocol.ConnectPacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServiceServer).Connect(ctx, in)
+		return srv.(ReceiveServiceServer).Connect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.MsgService/Connect",
+		FullMethod: "/realtimex.msg.ReceiveService/Connect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServiceServer).Connect(ctx, req.(*ConnectReq))
+		return srv.(ReceiveServiceServer).Connect(ctx, req.(*protocol.ConnectPacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MsgService_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubscribeReq)
+func _ReceiveService_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(protocol.SubscribePacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServiceServer).Subscribe(ctx, in)
+		return srv.(ReceiveServiceServer).Subscribe(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.MsgService/Subscribe",
+		FullMethod: "/realtimex.msg.ReceiveService/Subscribe",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServiceServer).Subscribe(ctx, req.(*SubscribeReq))
+		return srv.(ReceiveServiceServer).Subscribe(ctx, req.(*protocol.SubscribePacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MsgService_Unsubscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnsubscribeReq)
+func _ReceiveService_Unsubscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(protocol.UnsubscribePacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServiceServer).Unsubscribe(ctx, in)
+		return srv.(ReceiveServiceServer).Unsubscribe(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.MsgService/Unsubscribe",
+		FullMethod: "/realtimex.msg.ReceiveService/Unsubscribe",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServiceServer).Unsubscribe(ctx, req.(*UnsubscribeReq))
+		return srv.(ReceiveServiceServer).Unsubscribe(ctx, req.(*protocol.UnsubscribePacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MsgService_Publish_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PublishReq)
+func _ReceiveService_Publish_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(protocol.PublishPacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServiceServer).Publish(ctx, in)
+		return srv.(ReceiveServiceServer).Publish(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.MsgService/Publish",
+		FullMethod: "/realtimex.msg.ReceiveService/Publish",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServiceServer).Publish(ctx, req.(*PublishReq))
+		return srv.(ReceiveServiceServer).Publish(ctx, req.(*protocol.PublishPacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MsgService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PingReq)
+func _ReceiveService_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(protocol.PingReqPacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServiceServer).Ping(ctx, in)
+		return srv.(ReceiveServiceServer).Ping(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.MsgService/Ping",
+		FullMethod: "/realtimex.msg.ReceiveService/Ping",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServiceServer).Ping(ctx, req.(*PingReq))
+		return srv.(ReceiveServiceServer).Ping(ctx, req.(*protocol.PingReqPacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _MsgService_Disconnect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DisconnectReq)
+func _ReceiveService_Disconnect_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(protocol.DisconnectPacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(MsgServiceServer).Disconnect(ctx, in)
+		return srv.(ReceiveServiceServer).Disconnect(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.MsgService/Disconnect",
+		FullMethod: "/realtimex.msg.ReceiveService/Disconnect",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServiceServer).Disconnect(ctx, req.(*DisconnectReq))
+		return srv.(ReceiveServiceServer).Disconnect(ctx, req.(*protocol.DisconnectPacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// MsgService_ServiceDesc is the grpc.ServiceDesc for MsgService service.
+// ReceiveService_ServiceDesc is the grpc.ServiceDesc for ReceiveService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var MsgService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "realtimex.msg.MsgService",
-	HandlerType: (*MsgServiceServer)(nil),
+var ReceiveService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "realtimex.msg.ReceiveService",
+	HandlerType: (*ReceiveServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Connect",
-			Handler:    _MsgService_Connect_Handler,
+			Handler:    _ReceiveService_Connect_Handler,
 		},
 		{
 			MethodName: "Subscribe",
-			Handler:    _MsgService_Subscribe_Handler,
+			Handler:    _ReceiveService_Subscribe_Handler,
 		},
 		{
 			MethodName: "Unsubscribe",
-			Handler:    _MsgService_Unsubscribe_Handler,
+			Handler:    _ReceiveService_Unsubscribe_Handler,
 		},
 		{
 			MethodName: "Publish",
-			Handler:    _MsgService_Publish_Handler,
+			Handler:    _ReceiveService_Publish_Handler,
 		},
 		{
 			MethodName: "Ping",
-			Handler:    _MsgService_Ping_Handler,
+			Handler:    _ReceiveService_Ping_Handler,
 		},
 		{
 			MethodName: "Disconnect",
-			Handler:    _MsgService_Disconnect_Handler,
+			Handler:    _ReceiveService_Disconnect_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -300,10 +301,10 @@ var MsgService_ServiceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PushServiceClient interface {
-	// 广播消息
-	Broadcast(ctx context.Context, in *PushMsg, opts ...grpc.CallOption) (*BroadcastResp, error)
-	// 推送消息
-	Push(ctx context.Context, in *PushMsg, opts ...grpc.CallOption) (*PushMsgResp, error)
+	// 按照主题广播消息
+	BroadcastTopicMsg(ctx context.Context, in *protocol.PublishPacket, opts ...grpc.CallOption) (*protocol.PublishAckPacket, error)
+	// 推送到消息
+	PushUserMsg(ctx context.Context, in *PushUserMsgReq, opts ...grpc.CallOption) (*PushUserMsgResp, error)
 }
 
 type pushServiceClient struct {
@@ -314,18 +315,18 @@ func NewPushServiceClient(cc grpc.ClientConnInterface) PushServiceClient {
 	return &pushServiceClient{cc}
 }
 
-func (c *pushServiceClient) Broadcast(ctx context.Context, in *PushMsg, opts ...grpc.CallOption) (*BroadcastResp, error) {
-	out := new(BroadcastResp)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.PushService/Broadcast", in, out, opts...)
+func (c *pushServiceClient) BroadcastTopicMsg(ctx context.Context, in *protocol.PublishPacket, opts ...grpc.CallOption) (*protocol.PublishAckPacket, error) {
+	out := new(protocol.PublishAckPacket)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.PushService/BroadcastTopicMsg", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *pushServiceClient) Push(ctx context.Context, in *PushMsg, opts ...grpc.CallOption) (*PushMsgResp, error) {
-	out := new(PushMsgResp)
-	err := c.cc.Invoke(ctx, "/realtimex.msg.PushService/Push", in, out, opts...)
+func (c *pushServiceClient) PushUserMsg(ctx context.Context, in *PushUserMsgReq, opts ...grpc.CallOption) (*PushUserMsgResp, error) {
+	out := new(PushUserMsgResp)
+	err := c.cc.Invoke(ctx, "/realtimex.msg.PushService/PushUserMsg", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -336,10 +337,10 @@ func (c *pushServiceClient) Push(ctx context.Context, in *PushMsg, opts ...grpc.
 // All implementations must embed UnimplementedPushServiceServer
 // for forward compatibility
 type PushServiceServer interface {
-	// 广播消息
-	Broadcast(context.Context, *PushMsg) (*BroadcastResp, error)
-	// 推送消息
-	Push(context.Context, *PushMsg) (*PushMsgResp, error)
+	// 按照主题广播消息
+	BroadcastTopicMsg(context.Context, *protocol.PublishPacket) (*protocol.PublishAckPacket, error)
+	// 推送到消息
+	PushUserMsg(context.Context, *PushUserMsgReq) (*PushUserMsgResp, error)
 	mustEmbedUnimplementedPushServiceServer()
 }
 
@@ -347,11 +348,11 @@ type PushServiceServer interface {
 type UnimplementedPushServiceServer struct {
 }
 
-func (UnimplementedPushServiceServer) Broadcast(context.Context, *PushMsg) (*BroadcastResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Broadcast not implemented")
+func (UnimplementedPushServiceServer) BroadcastTopicMsg(context.Context, *protocol.PublishPacket) (*protocol.PublishAckPacket, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BroadcastTopicMsg not implemented")
 }
-func (UnimplementedPushServiceServer) Push(context.Context, *PushMsg) (*PushMsgResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Push not implemented")
+func (UnimplementedPushServiceServer) PushUserMsg(context.Context, *PushUserMsgReq) (*PushUserMsgResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PushUserMsg not implemented")
 }
 func (UnimplementedPushServiceServer) mustEmbedUnimplementedPushServiceServer() {}
 
@@ -366,38 +367,38 @@ func RegisterPushServiceServer(s grpc.ServiceRegistrar, srv PushServiceServer) {
 	s.RegisterService(&PushService_ServiceDesc, srv)
 }
 
-func _PushService_Broadcast_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PushMsg)
+func _PushService_BroadcastTopicMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(protocol.PublishPacket)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PushServiceServer).Broadcast(ctx, in)
+		return srv.(PushServiceServer).BroadcastTopicMsg(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.PushService/Broadcast",
+		FullMethod: "/realtimex.msg.PushService/BroadcastTopicMsg",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PushServiceServer).Broadcast(ctx, req.(*PushMsg))
+		return srv.(PushServiceServer).BroadcastTopicMsg(ctx, req.(*protocol.PublishPacket))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PushService_Push_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PushMsg)
+func _PushService_PushUserMsg_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PushUserMsgReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PushServiceServer).Push(ctx, in)
+		return srv.(PushServiceServer).PushUserMsg(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realtimex.msg.PushService/Push",
+		FullMethod: "/realtimex.msg.PushService/PushUserMsg",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PushServiceServer).Push(ctx, req.(*PushMsg))
+		return srv.(PushServiceServer).PushUserMsg(ctx, req.(*PushUserMsgReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -410,12 +411,12 @@ var PushService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PushServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Broadcast",
-			Handler:    _PushService_Broadcast_Handler,
+			MethodName: "BroadcastTopicMsg",
+			Handler:    _PushService_BroadcastTopicMsg_Handler,
 		},
 		{
-			MethodName: "Push",
-			Handler:    _PushService_Push_Handler,
+			MethodName: "PushUserMsg",
+			Handler:    _PushService_PushUserMsg_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
